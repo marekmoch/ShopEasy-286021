@@ -7,7 +7,7 @@ Our role involved processing this data to distinguish between essential and triv
 accordingly. The goal is to enable ShopEasy to enhance user experiences by tailoring special promotions and improving services. 
 Leveraging machine learning and our customer categorization, ShopEasy can now more effectively target specific customer segments for 
 their promotional efforts, based on the combination of all of the detailed user information. 
-## [Section 2] Methods
+## [Section 2] Methods 
 We've started by familiarizing ourselves with all of the data columns and what they mean. Right away it was apparent that frequencyIndex,
 itemBuyFrequency and webUsage are all very similar and that down the line we would have to something about these. When we started with 
 exploratory data analysis, it was important to make everything as clear and readable as possible. There was a lot of variety between some 
@@ -15,6 +15,8 @@ user data, so it was important to display all lables clearly, especially during 
 part was NULL value rows, as there were 314 such rows, which was 3.5% of the whole dataset. Following detailed analysis, all of the NULL 
 values were dropped because they generally followed the distribution of the data and wouldn't make a significant different during training.  
 
+Our design choices aren't really that complicated. We tried to make everything as readable as possible. We kept most of the default colors, but went ahead and changed some, such as when we displayed the red dashed line to show our only missing row value for one of the features. For our ipynb file, we tried to follow a chronological order, like if a person were following a story. 
+   
 Preprocessing the dataset was an easy task. The personId column is a unique identifier, so every row is "unique" in its own sense, but we 
 still ended up checking for duplicate personId values just to be safe (there weren't any). We also decided to encode categorical features at 
 the beginning of EDA since they also offer an insight into analyzing NULL values and the general distribution of the data, so preprocessing
