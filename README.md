@@ -54,7 +54,7 @@ Frequency vs. Count: The frequency of using emergency funds is likely a more rel
 
 Below are all of the attributes we decided to retain before training our data and the reasons why: 
 
-The features we have chosen to keep provide a comprehensive view of customer behavior on the platform, focusing on their spending habits, purchase frequencies, and overall engagement with the platform. By eliminating redundant or less informative features, we enhance the potential for the clustering algorithm to allow us to discover meaningful and distinct customer segments based on the most impactful aspects of their behavior.
+The features we have chosen to keep provide a comprehensive view of customer behavior on the platform, focusing on their spending habits, purchase frequencies, and overall engagement with the platform. By eliminating redundant or less informative features, we enhance the potential for the clustering algorithm to allow us to discover meaningful and distinct customer segments based on the most impactful aspects of their behavior. Additionaly, the reason we kept the account type (Premium, Student or Standard), even though there seemed to be no correlation between anything and makes sense to delete it, is because, as we already said, Shopeasy wants to "target specific customer segments for their promotional efforts". So we believe that it is very important for Shopeasy to know whether their customer base are primarily students, standard or premium holders because that way they can target their audience more. Even though this design choice might decrease the silhoutte score by a lot and might seem illogical, we believe that in the real world this would make a lot of sense and would be definitely more beneficial. 
 
 ---
 The project is definitely a clustering problem, as the task asks "by applying segmentation to this dataset, ShopEasy aims to uncover these 
@@ -74,11 +74,34 @@ KMeans (more specifically KMeans++) and DBScan, however, upon completing DBScan,
 explained in results, but in the end we ended up going for KMeans++ and Hierarchical Clustering. 
 
 ## [Section 3] 
+Below are the experiments that we conducted to validate all of our target contributions. 
+#### K-Clustering++ Elbow-Method:
+![ElbowMethod-K](https://github.com/marekmoch/ShopEasy-286021/assets/151950348/8cce210c-ffae-4860-8245-a8d7a3bed195)
+   
+K-Means: We used the elbow method to discover what the most appropriate amount of clusters are (see below). The Inertia, which is plotted on the y-axis, measures how well a dataset was clustered by K-Means for each amount of clusters (x-axis). It is calculated by measuring the distance between each data point and its centroid, squaring this distance, and summing these squares across one cluster. A good model is one with low inertia and a low number of clusters. You find the most appropriate amount of clusters by finding the “elbow” in the graph. For our project, the elbow method suggested that it is best to use 5 distinct clusters, which is  why we settled on this amount. 
+   
+#### DBSCAN Elbow Method:
 ![image](https://github.com/marekmoch/ShopEasy-286021/assets/151950348/fb251c72-6e4c-4d44-b737-fc9cfb91aac1)
 
-![dendogram](https://github.com/marekmoch/ShopEasy-286021/assets/151950348/d564746e-98a7-416b-b05b-a5fb9680a236)
-![ElbowMethod-K](https://github.com/marekmoch/ShopEasy-286021/assets/151950348/8cce210c-ffae-4860-8245-a8d7a3bed195)
+Similar to K-Means, the elbow method can be used for this method as well. In this case it is to tune the hyper parameter eps, which is an input value which defines the maximum distance between two samples for them to be considered as in the same neighborhood; essentially how close points should be to each other to be considered part of a cluster. In the graph (see below),  the elbow is at the point where the curve starts to ascent rapidly. Selecting an eps value just before this sharp increase gives us the best clustering results, as it balances the density requirement for clusters without merging separate clusters or including too much noise. We have located it to be around the value of 1.8. 
 
+#### Hierarchical Clustering Cluster Amount:
+![image](https://github.com/marekmoch/ShopEasy-286021/assets/151950348/aa364c59-72df-4a4d-bbd1-0501ae4b43fd)
+   
+The image above is a dendrogram, which shows how hierarchical clustering groups the different clusters together. As can be seen, the biggest apart distance is create when around five clusters are made, therefore that will our cut off point for hierarchical clustering. 
+   
+#### Silhouette Score:
+To confirm the clusters we have determined using the various clustering techniques, we computed the Silhouette Score score for each of them. This score is a measurement of how well samples are clustered with samples that are similar to themselves. It measures how similar an object is to its own cluster compared to other clusters. The silhouette score ranges from -1 to +1, where a high value indicates that the object is well matched to its own cluster and poorly matched to neighboring clusters. Depending on the application, more distinct (higher value) or less distinct (lower value) will be most fitting. 
+   
+The results were:
+K-means: ​​0.33334945234618624
+DB-Scan: 0.35529034595145237
+Hierarchical Clustering: 0.3248860421103077
+   
+The approximate silhouette score of 0.3 suggests that while there is some overlap between clusters, each cluster has distinct characteristics that are meaningful for our objectives. A score of 0.3, which is a moderate score, in this case, indicates naturally overlapping clusters. We are creating clusters which try to segment customer behaviors and it's therefore natural that some overlap will naturally take place. The clusters align well with our goals and provide meaningful insights, as we will discuss in the next section. A silhouette score that is not very close to +1 can therefore still be considered successful.It indicates that while there is some overlap, the clusters are still distinct to provide information for the EasyShop business to act upon. Also, we did say that we assume that our silhoutte score might be lower, due to our choice, but that does make sense. We now hoope to see a clear distinction between the clusters that mostly premium accounts, standard account or student accounts. 
+
+#### Empirical Experimentation:
+In addition to the abovementioned formal and streamlined  experiments, we also experimented by using a wide range of different hyperparameters as inputs for the clustering functions. Also, we tried running the clustering algorithms with varying column attributes as inputs. We finally settled on the features we described above. 
 
 ## [Section 4] Results  
 Our results ended up being cut up into 5 clusters, which clearly makes sense, due our Elbow Method Graph and Dendrogram in Section 3. 
@@ -180,9 +203,8 @@ Cluster 4: This cluster holds above average emergencyFunds, emergencyUseFrequenc
 Based on the analysis above, we've decided to name each cluster, as shown below:
 
 <img width="420" alt="Screenshot 2023-12-04 at 15 57 05" src="https://github.com/marekmoch/ShopEasy-286021/assets/151950348/d3586898-26d6-4295-aea2-8ec5a3d455ff">
-
-
+   
 ## [Section 5] Conclusion 
-To conclude, we've gained a deeper understanding in implimenting the different clustering techniques, determining what variables, such as the amount clusters or what EPS value to choose, and what data features provide valuable insight and which do not. Additionally, we've learned most of the steps of explanatory data analysis and at what point they should be used. It was also very interesting trying to determine the types of customers framed in each cluster and the methods used to achieve these. As a side-note, we also found that trying to segment a company's customer base accurately is actually a very difficult task and even thought our data was definitely smaller than what an actual company would use to try to segment their customers, we have gained a definite appreciation for those company's and their workers. I know I will definitely not be as mad as I've been up to this point if I recieve a target mail that actually does not make sense at all, since the company just probably just assigned me to the wrong cluster by accident. 
+To conclude, we've gained a deeper understanding in implimenting the different clustering techniques, determining what variables, such as the amount clusters or what EPS value to choose, and what data features provide valuable insight and which do not. We are also very happy with the way our clusters look, since they are clearly segmented based on their account types and how much people spend, so it should be very easy for Shopeasy to target their specific types of audiences. Additionally, we've learned most of the steps of explanatory data analysis and at what point they should be used. It was also very interesting trying to determine the types of customers framed in each cluster and the methods used to achieve these. As a side-note, we also found that trying to segment a company's customer base accurately is actually a very difficult task and even thought our data was definitely smaller than what an actual company would use to try to segment their customers, we have gained a definite appreciation for those company's and their workers. I know I will definitely not be as mad as I've been up to this point if I recieve a target mail that actually does not make sense at all, since the company just probably just assigned me to the wrong cluster by accident. 
 
 Finally, we are left with multiple different questions, with the main one being if our clusters are actually true. Since we do no a labeled dataset, there is actually no way for us to analyze that (except wit the ways we already did in section 3, which are probably not enough). One possible method or a natural step we could implement in future would (if we were ShopEasy workers), would be to start sending out specialized promotions and targeted ads based on these clusters and then do a survey and see if people are happy with them. Additionaly, this date is static, so we do not know if this is even true for each customer, after we finish doing the clustering algorithm. The next possible steps for that could be to try and implement something that tracks a users data change over time and then tries to create those clusters, but this would be very computationaly intensive. I would also like to take the survey results we would do for each customer targeted experience and include the results in the cluster data, so it could see what cluster it already assigned it to and if the user was happy with it. I think that that would definitely help to improve the clustering model. 
