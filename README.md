@@ -20,6 +20,43 @@ still ended up checking for duplicate personId values just to be safe (there wer
 the beginning of EDA since they also offer an insight into analyzing NULL values and the general distribution of the data, so preprocessing
 was pretty much already finished.  
 
+---
+
+Below are all of the attributes we decided to drop before training our data and the reasons why:   
+
+#### Location Attributes (New York, Los Angeles, Chicago):
+Redundancy and Relevance: In an online shopping context, the physical location of a user is less relevant, especially if the platform's services and offerings are the same across regions.   
+Lack of Correlation: The heatmap analysis indicated no significant correlation between these location attributes and other features, suggesting they wouldn't contribute meaningful variance or distinction in customer segmentation.
+
+#### WebUsage and FrequencyIndex:
+Redundancy with Item Buy Frequency: These features would overlap with itemBuyFrequency in terms of the information they provide, as they all keep track of how often the users shop on the e-commerce platform. As itemBuyFrequency adequately represents the shopping frequency, including additional similar measures would introduce redundancy and dilute the distinctiveness of clusters. Therefore we decided to simplify it and remove these redundant features to reduce the dimensionality and improve interpretability of the clusters. 
+
+#### SingleItemBuyFrequency and MultipleItemBuyFrequency:
+Overlap with General Purchase Frequency: The distinction between single and multiple item purchases would not significantly contribute to understanding different customer behaviors, especially as the overall purchase frequency (itemBuyFrequency) is already considered.      
+Focus on Overall Behavior: In our clustering , we aim to identify broader patterns and behaviors, and the distinction between single and multiple item purchases would be too detail-oriented for our clustering purposes.
+
+#### SingleItemCost and MultipleItemCost:
+Incorporated into Total Item Cost: The total cost of items purchased (itemCosts) captures the essential spending behavior of customers. Distinguishing between single and multiple item costs would not add meaningful insights for clustering.Total spending will be more relevant than the composition of that spending.
+
+#### LeastAmountPaid:
+Limited Insight: The minimum amount a customer has paid in a transaction would not provide significant insights into their overall shopping behavior or value to the platform.
+
+#### MaxSpendLimit:
+Derived Attribute: As it is simply a derivative of user behavior and loyalty, this measurement would not be as informative as direct measures of these attributes through the other selected features.      
+Unclear Calculation Method: Without understanding how this limit is calculated, relying on it for segmentation might lead to misleading conclusions.
+
+#### PaymentCompletionRate:
+Irrelevance for Segmentation: The rate of completing payments does not differentiate customer segments in a meaningful way for the purpose of understanding shopping habits or preferences. Looking for example at total spending and purchase frequency instead, will be more insightful.
+
+#### EmergencyCount:
+Overlap with Emergency Use Frequency: Since emergencyUseFrequency already provides a measure of how frequently customers use their emergency funds, emergencyCount would be redundant, which is shown by their correlation of 0.8.   
+Frequency vs. Count: The frequency of using emergency funds is likely a more relevant metric for understanding customer behavior than just the count of such instances.
+
+Below are all of the attributes we decided to retain before training our data and the reasons why: 
+
+The features we have chosen to keep provide a comprehensive view of customer behavior on the platform, focusing on their spending habits, purchase frequencies, and overall engagement with the platform. By eliminating redundant or less informative features, we enhance the potential for the clustering algorithm to allow us to discover meaningful and distinct customer segments based on the most impactful aspects of their behavior.
+
+---
 The project is definitely a clustering problem, as the task asks "by applying segmentation to this dataset, ShopEasy aims to uncover these 
 hidden patterns". Based on this statement, we know that a method that involves organizing something into categories will have to used, so 
 regression is taken out of the equation because it predicts a continous value and not a group. The two final ones are clustering VS. Classification.
