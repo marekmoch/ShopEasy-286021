@@ -22,7 +22,7 @@ still ended up checking for duplicate personId values just to be safe (there wer
 the beginning of EDA since they also offer an insight into analyzing NULL values and the general distribution of the data, so preprocessing
 was pretty much already finished.  
 
-Finally, in order to make sure our notebook functions correctly and efficiently, an environment called shopeasy.yml was created and uploaded it to this repository. This environment file contains all the necessary dependencies with their respective versions that are specifically configured for our project. 
+Finally, in order to make sure our notebook functions correctly and efficiently, an environment called aienviroment.yml was created and uploaded it to this repository. This environment file contains all the necessary dependencies with their respective versions that are specifically configured for our project. 
 
 ---
 
